@@ -3,61 +3,63 @@
 
 Dado um array nums, encontre o primeiro trecho consecutivo
 em que os valores começam a crescer.
-
 O trecho começa quando um número é MAIOR que o anterior.
-
 A partir daí, conte quantos elementos consecutivos continuam
 crescendo.
-
 Retorne um objeto:
-
 {
   inicio,
   tamanho
 }
-
 "inicio" é o índice do primeiro elemento do trecho.
-
 Se não existir nenhum crescimento, retorne:
-
 {
   inicio: -1,
   tamanho: 0
 }
-
 Exemplo:
-
 [4, 7, 9, 3, 5]
-
 4 → 7 → 9 cresce.
-
 Resultado:
 {
   inicio: 1,
   tamanho: 3
 }
-
 A contagem inclui o primeiro elemento do trecho.
 ============================================================ */
-
 function primeiroTrechoCrescente(nums) {
-  // faça aqui
+  let inicio = -1;
+  let tamanho = 0;
+
+  for (let i = 1; i < nums.length; i++) {
+
+    if (inicio === -1 && nums[i] > nums[i - 1]) {
+      inicio = i;
+      tamanho = 2;
+    } else if (inicio !== -1 && nums[i] > nums[i - 1]) {
+      tamanho++;
+    } else if (inicio !== -1) {
+      break;
+    }
+  }
+
+  return { inicio, tamanho };
 }
 
 console.log(primeiroTrechoCrescente([4, 7, 9, 3, 5]));
 // {inicio: 1, tamanho: 3}
 
 console.log(primeiroTrechoCrescente([10, 5, 8, 12, 15]));
-// {inicio: 1, tamanho: 4}
+// {inicio: 2, tamanho: 4}
 
 console.log(primeiroTrechoCrescente([9, 7, 5, 3]));
 // {inicio: -1, tamanho: 0}
 
 console.log(primeiroTrechoCrescente([2, 5]));
-// {inicio: 0, tamanho: 2}
+// {inicio: 1, tamanho: 2}
 
 console.log(primeiroTrechoCrescente([3, 3, 4, 6]));
-// {inicio: 1, tamanho: 3}
+// {inicio: 2, tamanho: 3}
 
 console.log(primeiroTrechoCrescente([]));
 // {inicio: -1, tamanho: 0}
@@ -65,39 +67,27 @@ console.log(primeiroTrechoCrescente([]));
 
 /* ============================================================
 2️⃣ POSIÇÃO DO VALOR MAIS PRÓXIMO
-
 Dado um array nums e um valor alvo, encontre o elemento cuja
 distância até o alvo seja a menor.
-
 Retorne:
-
 {
   valor,
   posicao
 }
-
 A distância deve ser calculada usando valor absoluto.
-
 Se houver empate, mantenha a PRIMEIRA ocorrência.
-
 Exemplo:
-
 nums = [10, 14, 18]
 alvo = 16
-
 14 está a 2 de distância.
 18 está a 2 de distância.
-
 Empate → fica com 14, pois aparece primeiro.
-
 Resultado:
 {
   valor: 14,
   posicao: 1
 }
-
 Se o array estiver vazio, retorne:
-
 {
   valor: null,
   posicao: -1
@@ -105,7 +95,22 @@ Se o array estiver vazio, retorne:
 ============================================================ */
 
 function valorMaisProximo(nums, alvo) {
-  // faça aqui
+  let valor = null;
+  let posicao = -1;
+  let menorDiferenca = Infinity;
+
+  for (let i = 0; i < nums.length; i++) {
+
+    let diferencaAtual = Math.abs(nums[i] - alvo);
+
+    if (diferencaAtual < menorDiferenca) {
+      menorDiferenca = diferencaAtual;
+      valor = nums[i];
+      posicao = i;
+    }
+  }
+
+  return { valor, posicao };
 }
 
 console.log(valorMaisProximo([10, 14, 18], 16));
@@ -172,7 +177,50 @@ Se o array estiver vazio, retorne:
 ============================================================ */
 
 function maiorBlocoIgual(nums) {
-  // faça aqui
+
+  if (nums.length === 0) {
+    return {
+      valor: null,
+      tamanho: 0,
+      inicio: -1
+    };
+  }
+
+  let valor = null;
+  let tamanho = 0;
+  let inicio = -1;
+
+  let tamanhoAtual = 1;
+  let inicioAtual = 0;
+
+  for (let i = 1; i < nums.length; i++) {
+
+    if (nums[i] === nums[i - 1]) {
+      tamanhoAtual++;
+    } else {
+
+      if (tamanhoAtual > tamanho) {
+        valor = nums[i - 1];
+        tamanho = tamanhoAtual;
+        inicio = inicioAtual;
+      }
+
+      inicioAtual = i;
+      tamanhoAtual = 1;
+    }
+  }
+
+  if (tamanhoAtual > tamanho) {
+    valor = nums[nums.length - 1];
+    tamanho = tamanhoAtual;
+    inicio = inicioAtual;
+  }
+
+  return {
+    valor,
+    tamanho,
+    inicio
+  };
 }
 
 console.log(maiorBlocoIgual([2, 2, 5, 5, 5, 3]));
