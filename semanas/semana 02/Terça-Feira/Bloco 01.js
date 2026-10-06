@@ -126,3 +126,140 @@ console.log(primeiraOcorrencia([1, 2, 3, 4], 1)); // 0
 console.log(primeiraOcorrencia([1, 2, 3, 4], 4)); // 3
 
 console.log(primeiraOcorrencia([], 5)); // -1
+
+/* ============================================================
+4️⃣ CONTAGEM POR CATEGORIA
+Dado um array de números, conte quantos valores são:
+- positivos: maiores que 0
+- negativos: menores que 0
+- zeros: iguais a 0
+Retorne um objeto no formato:
+{
+  positivos,
+  negativos,
+  zeros
+}
+O array original não deve ser alterado.
+============================================================ */
+
+function contarCategorias(nums) {
+  let positivos = 0;
+  let negativos = 0;
+  let zeros = 0;
+
+  for (let num of nums) {
+    
+    if (num > 0) {
+      positivos ++;
+    } else if (num < 0) {
+      negativos ++;
+    } else {
+      zeros ++;
+    }
+  }
+
+  return {
+    positivos,
+    negativos,
+    zeros
+  }
+}
+
+console.log(contarCategorias([5, -2, 0, 8, -1, 0])); // { positivos: 2, negativos: 2, zeros: 2 }
+
+console.log(contarCategorias([1, 2, 3])); // { positivos: 3, negativos: 0, zeros: 0 }
+
+console.log(contarCategorias([-5, -2, -1])); // { positivos: 0, negativos: 3, zeros: 0 }
+
+console.log(contarCategorias([0, 0, 0])); // { positivos: 0, negativos: 0, zeros: 3 }
+
+console.log(contarCategorias([7, -7, 0])); // { positivos: 1, negativos: 1, zeros: 1 }
+
+console.log(contarCategorias([])); // { positivos: 0, negativos: 0, zeros: 0 }
+
+/* ============================================================
+5️⃣ SELEÇÃO DE PRODUTO
+Dado um array de produtos no formato:
+{
+  nome,
+  preco
+}
+Retorne o produto que possui o MAIOR preço.
+Regras:
+- Se houver empate, mantenha o primeiro produto.
+- Se o array estiver vazio, retorne null.
+- Não altere os objetos originais.
+============================================================ */
+
+function produtoMaisCaro(produtos) {
+  let maior = null;
+
+  for (let { nome, preco } of produtos) {
+    if (maior === null || preco > maior.preco) {
+      maior = {nome, preco};
+    }
+  }
+
+  return maior;
+}
+
+console.log(produtoMaisCaro([{nome: "Mouse", preco: 80}, {nome: "Teclado", preco: 120}, {nome: "Fone", preco: 100}]));
+// {nome: "Teclado", preco: 120}
+
+console.log(produtoMaisCaro([{nome: "A", preco: 50}, {nome: "B", preco: 90}]));
+// {nome: "B", preco: 90}
+
+console.log(produtoMaisCaro([{nome: "A", preco: 100}, {nome: "B", preco: 100}, {nome: "C", preco: 80}]));
+// {nome: "A", preco: 100}
+
+console.log(produtoMaisCaro([{nome: "Livro", preco: 35}]));
+// {nome: "Livro", preco: 35}
+
+console.log(produtoMaisCaro([{nome: "A", preco: 10}, {nome: "B", preco: 20}, {nome: "C", preco: 30}, {nome: "D", preco: 40}]));
+// {nome: "D", preco: 40}
+
+console.log(produtoMaisCaro([]));
+// null
+
+/* ============================================================
+6️⃣ TRANSFORMAÇÃO DE TEXTO
+Dado um array de palavras, crie um NOVO array seguindo estas
+regras:
+- palavras com menos de 4 caracteres → mantenha como estão
+- palavras com 4 ou mais caracteres → transforme para
+  letras maiúsculas
+A ordem deve ser preservada.
+Não altere o array original.
+============================================================ */
+
+function transformarPalavras(palavras) {
+  let resultado = [];
+
+  for (let palavra of palavras) {
+    if (palavra.length < 4) {
+      resultado.push(palavra);
+    } else {
+      resultado.push(palavra.toUpperCase());
+    }
+  }
+
+  return resultado;
+}
+
+console.log(transformarPalavras(["sol", "casa", "lua", "computador"]));
+// ["sol", "CASA", "lua", "COMPUTADOR"]
+
+console.log(transformarPalavras(["abc", "teste", "js"]));
+// ["abc", "TESTE", "js"]
+
+console.log(transformarPalavras(["casa", "livro", "bola"]));
+// ["CASA", "LIVRO", "BOLA"]
+
+console.log(transformarPalavras(["a", "ab", "abc"]));
+// ["a", "ab", "abc"]
+
+console.log(transformarPalavras(["abcd", "ABCDE", "JavaScript"]));
+// ["ABCD", "ABCDE", "JAVASCRIPT"]
+
+console.log(transformarPalavras([]));
+// []
