@@ -1,35 +1,37 @@
 /* ============================================================
 🟦 B4 — TREINO DE QUARTA
-
 3 QUESTÕES
 Estilo CWI: problema fechado, uma lógica central e casos de borda.
-
 Não precisa usar map/filter/reduce.
 ============================================================ */
 
-
 /* ============================================================
 1️⃣ AGRUPADOR DE VALORES
-
 Dado um array de números, crie dois novos arrays:
-
 - "baixos": números menores que 10
 - "altos": números maiores ou iguais a 10
-
 Mantenha a ordem original dos elementos.
-
 Retorne:
 {
   baixos,
   altos
 }
-
 Não altere o array original.
-
 ============================================================ */
 
 function agruparValores(nums) {
-  // faça aqui
+  let baixos = [];
+  let altos = [];
+
+  for (let num of nums) {
+    if (num < 10) {
+      baixos.push(num);
+    } else {
+      altos.push(num);
+    }
+  }
+
+  return {baixos, altos};
 }
 
 console.log(agruparValores([3, 12, 7, 20, 9]));
@@ -53,63 +55,53 @@ console.log(agruparValores([]));
 
 /* ============================================================
 2️⃣ SELEÇÃO DE PRODUTO
-
 Cada produto possui:
-
 {
   nome,
   preco,
   disponivel
 }
-
 Encontre o produto disponível com o MENOR preço.
-
 Se houver empate, mantenha o primeiro produto encontrado.
-
 Retorne um NOVO objeto com:
 {
   nome,
   preco
 }
-
 Se nenhum produto estiver disponível, retorne null.
-
 ============================================================ */
 
 function produtoMaisBarato(produtos) {
-  // faça aqui
+  let menor = null;
+
+  for (let { nome, preco, disponivel } of produtos) {
+    if (disponivel === true) {
+      
+      if (menor === null || preco < menor.preco) {
+        menor = {nome, preco};
+      }
+    }
+  }
+
+  return menor;
 }
 
-console.log(produtoMaisBarato([
-  {nome: "A", preco: 50, disponivel: true},
-  {nome: "B", preco: 30, disponivel: true},
-  {nome: "C", preco: 40, disponivel: true}
-]));
+console.log(produtoMaisBarato([ {nome: "A", preco: 50, disponivel: true},
+ {nome: "B", preco: 30, disponivel: true}, {nome: "C", preco: 40, disponivel: true}]));
 // {nome: "B", preco: 30}
 
-console.log(produtoMaisBarato([
-  {nome: "A", preco: 20, disponivel: false},
-  {nome: "B", preco: 35, disponivel: true},
-  {nome: "C", preco: 10, disponivel: false}
-]));
+console.log(produtoMaisBarato([ {nome: "A", preco: 20, disponivel: false}, {nome: "B", preco: 35, disponivel: true},
+ {nome: "C", preco: 10, disponivel: false}]));
 // {nome: "B", preco: 35}
 
-console.log(produtoMaisBarato([
-  {nome: "A", preco: 25, disponivel: true},
-  {nome: "B", preco: 25, disponivel: true},
-  {nome: "C", preco: 40, disponivel: true}
-]));
+console.log(produtoMaisBarato([ {nome: "A", preco: 25, disponivel: true}, {nome: "B", preco: 25, disponivel: true},
+ {nome: "C", preco: 40, disponivel: true}]));
 // {nome: "A", preco: 25}
 
-console.log(produtoMaisBarato([
-  {nome: "A", preco: 10, disponivel: false},
-  {nome: "B", preco: 20, disponivel: false}
-]));
+console.log(produtoMaisBarato([ {nome: "A", preco: 10, disponivel: false}, {nome: "B", preco: 20, disponivel: false}]));
 // null
 
-console.log(produtoMaisBarato([
-  {nome: "A", preco: 100, disponivel: true}
-]));
+console.log(produtoMaisBarato([ {nome: "A", preco: 100, disponivel: true}]));
 // {nome: "A", preco: 100}
 
 console.log(produtoMaisBarato([]));
@@ -118,28 +110,40 @@ console.log(produtoMaisBarato([]));
 
 /* ============================================================
 3️⃣ RESUMO DE CARACTERES
-
 Receba uma string e conte:
-
 - quantas letras "A" existem
 - quantas letras "B" existem
 - quantos outros caracteres existem
-
 A comparação deve ser EXATAMENTE com "A" e "B".
 Por exemplo, "a" é considerado outro caractere.
-
 Retorne:
-
 {
   A: quantidadeA,
   B: quantidadeB,
   outros: quantidadeOutros
 }
-
 ============================================================ */
 
 function resumirCaracteres(texto) {
-  // faça aqui
+  let quantidadeA = 0;
+  let quantidadeB = 0;
+  let outros = 0;
+
+  for (let caractere of texto) {
+    if (caractere === "A") {
+      quantidadeA ++;
+    } else if (caractere === "B") {
+      quantidadeB ++;
+    } else {
+      outros ++;
+    }
+  }
+
+  return {
+    A: quantidadeA,
+    B: quantidadeB,
+    outros
+  };
 }
 
 console.log(resumirCaracteres("ABBA"));
