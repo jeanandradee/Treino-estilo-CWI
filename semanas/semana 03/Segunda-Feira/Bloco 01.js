@@ -105,3 +105,142 @@ console.log(compararDespesas([], [8, 2])); // { totalA: 0, totalB: 10, diferenca
 console.log(compararDespesas([100], [])); // { totalA: 100, totalB: 0, diferenca: 100, quemGastouMais: "A" }
 
 console.log(compararDespesas([], [])); // { totalA: 0, totalB: 0, diferenca: 0, quemGastouMais: "EMPATE" }
+
+/*  4️⃣ Simulador de elevador 🛗
+Um elevador começa no andar 0.
+Recebe uma lista de comandos:
+- "SUBIR": sobe um andar;
+- "DESCER": desce um andar;
+- outros comandos são ignorados.
+O elevador não pode:
+- ficar abaixo do andar 0;
+- ultrapassar o andar máximo informado.
+Retorne:
+{ andarFinal, movimentosRealizados }
+Um movimento só conta se realmente mudar o andar.
+
+*/
+
+function simularElevador(comandos, andarMaximo) {
+  let andarFinal = 0;
+  let movimentosRealizados = 0;
+
+  for (let comando of comandos) {
+    if (comando === "SUBIR" && andarFinal < andarMaximo) {
+      andarFinal ++;
+      movimentosRealizados ++;
+    } else if (comando === "DESCER" && andarFinal > 0) {
+      andarFinal --;
+      movimentosRealizados ++;
+    }
+  }
+
+  return {andarFinal, movimentosRealizados};
+}
+
+console.log(simularElevador(["SUBIR", "SUBIR", "DESCER"], 5)); // { andarFinal: 1, movimentosRealizados: 3 }
+
+console.log(simularElevador(["DESCER", "DESCER"], 4)); // { andarFinal: 0, movimentosRealizados: 0 }
+
+console.log(simularElevador(["SUBIR", "SUBIR", "SUBIR"], 2)); // { andarFinal: 2, movimentosRealizados: 2 }
+
+console.log(simularElevador(["SUBIR", "X", "DESCER"], 3)); // { andarFinal: 0, movimentosRealizados: 2 }
+
+console.log(simularElevador(["SUBIR", "SUBIR", "SUBIR", "DESCER"], 2)); // { andarFinal: 1, movimentosRealizados: 3 }
+
+console.log(simularElevador([], 10)); // { andarFinal: 0, movimentosRealizados: 0 }
+
+/* 5️⃣ Analisador de notas 📚
+Uma função recebe um array de notas.
+Calcule:
+- maiorNota;
+- menorNota;
+- quantidadeAcimaDaMedia.
+A média deve ser calculada usando todas as notas.
+Conte quantas notas são ESTRITAMENTE maiores que a média.
+Atenção:
+- uma nota igual à média não entra na contagem;
+- o array terá pelo menos um elemento.
+Retorne:
+{ maiorNota, menorNota, quantidadeAcimaDaMedia }
+*/
+
+function analisarNotas(notas) {
+  let maiorNota = notas[0];
+  let menorNota = notas[0];
+  let quantidadeAcimaDaMedia = 0;
+  let media = notas.reduce((acc, n) => acc + n ,0) / notas.length;
+
+  for (let nota of notas) {
+    if (nota > maiorNota) {
+      maiorNota = nota;
+    }
+
+    if (nota < menorNota) {
+      menorNota = nota;
+    }
+
+    if (nota > media) {
+      quantidadeAcimaDaMedia ++;
+    }
+  }
+
+  return {maiorNota, menorNota, quantidadeAcimaDaMedia};
+}
+
+console.log(analisarNotas([6, 8, 10])); // { maiorNota: 10, menorNota: 6, quantidadeAcimaDaMedia: 1 }
+
+console.log(analisarNotas([5, 5, 5])); // { maiorNota: 5, menorNota: 5, quantidadeAcimaDaMedia: 0 }
+
+console.log(analisarNotas([2, 4, 6, 8])); // { maiorNota: 8, menorNota: 2, quantidadeAcimaDaMedia: 2 }
+
+console.log(analisarNotas([10, 0])); // { maiorNota: 10, menorNota: 0, quantidadeAcimaDaMedia: 1 }
+
+console.log(analisarNotas([7])); // { maiorNota: 7, menorNota: 7, quantidadeAcimaDaMedia: 0 }
+
+console.log(analisarNotas([3, 6, 9, 12])); // { maiorNota: 12, menorNota: 3, quantidadeAcimaDaMedia: 2 }
+
+/* 6️⃣ Compactador de espaços 📝
+Uma função recebe um texto que pode conter vários espaços
+consecutivos entre palavras.
+Retorne uma nova string com:
+- apenas um espaço entre palavras;
+- nenhum espaço no início;
+- nenhum espaço no final.
+Não use trim(), split() ou expressões regulares.
+Exemplo:
+"  ola   mundo  "
+Resultado:
+"ola mundo"
+Considere que o texto contém apenas letras e espaços.
+*/
+
+function compactarEspacos(texto) {
+  let resultado = "";
+
+  for (let i = 0; i < texto.length; i++) {
+    if (texto[i] !== " ") {
+      resultado += texto[i];
+    } else if (resultado !== "" && resultado[resultado.length -1] !== " ") {
+      resultado += " ";
+    }
+  }
+
+  if (resultado[resultado.length - 1] === " ") {
+    resultado = resultado.slice(0, -1);
+  }
+
+  return resultado;
+}
+
+console.log(compactarEspacos("  ola   mundo  ")); // "ola mundo"
+
+console.log(compactarEspacos("javascript")); // "javascript"
+
+console.log(compactarEspacos("a  b")); // "a b"
+
+console.log(compactarEspacos("    teste    final    ")); // "teste final"
+
+console.log(compactarEspacos("")); // ""
+
+console.log(compactarEspacos("   ")); // ""
