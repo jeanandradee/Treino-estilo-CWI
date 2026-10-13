@@ -85,3 +85,117 @@ console.log(contarX([["X"]])); // 1
 console.log(contarX([["X", "X"], ["X", "."]])); // 3
 console.log(contarX([[".", "X", "."], ["X", "X", "X"]])); // 4
 console.log(contarX([["X", "X"], ["X", "X"], ["X", "X"]])); // 6
+
+/* 4. Primeiro elemento repetido 🔁
+Receba um array de números.
+Retorne o primeiro número que aparecer novamente
+durante a leitura da esquerda para a direita.
+Ou seja, retorne o primeiro elemento cujo valor já
+tenha aparecido antes.
+Se nenhum número se repetir, retorne -1.
+Não altere o array original.
+*/
+
+function primeiroRepetido(numeros) {
+  let vistos = [];
+
+  for (let numero of numeros) {
+    if (vistos.includes(numero)) {
+      return numero;
+    } else {
+      vistos.push(numero);
+    }
+  }
+
+  return -1;
+}
+
+console.log(primeiroRepetido([4, 2, 4, 2])); // 4
+console.log(primeiroRepetido([1, 2, 3, 4])); // -1
+console.log(primeiroRepetido([7, 7, 8])); // 7
+console.log(primeiroRepetido([1, 2, 3, 2, 1])); // 2
+console.log(primeiroRepetido([-1, 0, -1])); // -1
+console.log(primeiroRepetido([5, 4, 3, 4, 3])); // 4
+ 
+
+/* 5. Soma dos vizinhos de um elemento 📍
+Receba uma matriz de números e uma posição [linha, coluna].
+Some os vizinhos imediatamente acima, abaixo, à esquerda
+e à direita da posição indicada.
+Não conte diagonais.
+Ignore vizinhos que estejam fora dos limites da matriz.
+Não inclua o próprio elemento na soma.
+A posição recebida sempre será válida.
+*/
+
+function somarVizinhos(matriz, linha, coluna) {
+  let soma = 0;
+
+  if (linha > 0) {
+    soma += matriz[linha - 1][coluna];
+  }
+
+  if (linha < matriz.length - 1) {
+    soma += matriz[linha + 1][coluna];
+  }
+
+  if (coluna > 0) {
+    soma += matriz[linha][coluna - 1];
+  }
+
+  if (coluna < matriz[linha].length - 1) {
+    soma += matriz[linha][coluna + 1];
+  }
+
+  return soma
+}
+
+console.log(somarVizinhos([[1, 2, 3], [4, 5, 6], [7, 8, 9]], 1, 1)); // 20
+console.log(somarVizinhos([[1, 2], [3, 4]], 0, 0)); // 5
+console.log(somarVizinhos([[5, 8, 2]], 0, 1)); // 7
+console.log(somarVizinhos([[1], [2], [3]], 1, 0)); // 4
+console.log(somarVizinhos([[10, 20], [30, 40]], 1, 1)); // 50
+console.log(somarVizinhos([[1, 2, 3], [4, 5, 6]], 0, 2)); // 7
+
+/* 6. Maior região horizontal de iguais 📏
+Receba um array de números.
+
+Descubra o tamanho da maior sequência de números iguais
+que estejam em posições consecutivas.
+
+Não é necessário que todos os números iguais do array
+estejam juntos; considere apenas sequências consecutivas.
+
+Retorne o tamanho da maior sequência.
+Se o array estiver vazio, retorne 0.
+*/
+
+function maiorSequenciaIgual(numeros) {
+  if (numeros.length === 0) {
+    return 0;
+  }
+
+  let sequenciaAtual = 1;
+  let maiorSequencia = 1;
+
+  for (let i = 1; i < numeros.length; i++) {
+    if (numeros[i] === numeros[i - 1]) {
+      sequenciaAtual++;
+    } else {
+      sequenciaAtual = 1;
+    }
+
+    if (sequenciaAtual > maiorSequencia) {
+      maiorSequencia = sequenciaAtual;
+    }
+  }
+
+  return maiorSequencia;
+}
+
+console.log(maiorSequenciaIgual([1, 1, 2, 2, 2, 3])); // 3
+console.log(maiorSequenciaIgual([5, 5, 5, 5])); // 4
+console.log(maiorSequenciaIgual([1, 2, 3, 4])); // 1
+console.log(maiorSequenciaIgual([7])); // 1
+console.log(maiorSequenciaIgual([1, 1, 2, 2, 2, 2, 1])); // 4
+console.log(maiorSequenciaIgual([])); // 0
