@@ -73,7 +73,7 @@ function analisarTentativas(tentativas) {
     if (tentativa === "OK") {
       sucessos ++;
       ultimoResultado = "OK";
-    } else if (tentativa = "ERRO") {
+    } else if (tentativa === "ERRO") {
       erros ++;
       ultimoResultado = "ERRO";
     }
