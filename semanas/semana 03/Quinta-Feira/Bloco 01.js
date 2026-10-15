@@ -99,3 +99,74 @@ console.log(analisarTentativas(["OK", "OK", "OK"]));
 
 console.log(analisarTentativas(["ERRO", "OK", "ERRO", "OK"]));
 // { sucessos: 2, erros: 2, ultimoResultado: "OK" }
+
+/*🧩 Q4 — Calculadora de saldo acumulado
+Um usuário começa com saldo zero e realiza movimentações. Valores positivos representam créditos; valores negativos representam débitos.
+retorne o saldo final.*/
+
+function calcularSaldo(movimentos) {
+  let saldo = 0;
+
+  for (let movimento of movimentos) {
+    saldo += movimento;
+  }
+
+  return saldo;
+}
+
+console.log(calcularSaldo([10, -3, 5]));     // 12
+console.log(calcularSaldo([-10, 4]));        // -6
+console.log(calcularSaldo([]));              // 0
+console.log(calcularSaldo([100]));           // 100
+console.log(calcularSaldo([-5, -5, -5]));    // -15
+console.log(calcularSaldo([20, -20, 7, -2])); // 5
+
+/*🧩 Q5 — Contagem de palavras longas
+Crie contarPalavrasLongas(palavras, limite) para contar quantas palavras possuem comprimento estritamente maior que limite.
+Considere o comprimento da string exatamente como recebido, incluindo maiúsculas e minúsculas normalmente.*/
+
+function contarPalavrasLongas(palavras, limite) {
+  let contador = 0; 
+
+  for (let palavra of palavras) {
+    if (palavra.length > limite) {
+      contador ++;
+    }
+  }
+
+  return contador;
+}
+
+console.log(contarPalavrasLongas(["sol", "janela", "computador"], 4)); // 2
+console.log(contarPalavrasLongas(["gato", "casa", "bola"], 4));        // 0
+console.log(contarPalavrasLongas(["javascript", "JS", "código"], 2));  // 2
+console.log(contarPalavrasLongas([], 3));                             // 0
+console.log(contarPalavrasLongas(["ab", "abcd", "abcdef"], 3));       // 2
+console.log(contarPalavrasLongas(["a", "bb", "ccc"], 1));             // 2
+
+/*🧩 Q6 — Encontrar o menor valor positivo
+Crie menorPositivo(numeros) para retornar o menor número estritamente positivo do array. Se não houver nenhum, retorne null.
+Não utilize sort().*/
+
+function menorPositivo(numeros) {
+  let menor = null;
+
+  for (let numero of numeros) {
+    if (numero > 0) {
+      if (menor === null || numero < menor) {
+        menor = numero;
+      }
+    } else {
+      continue;
+    }
+  }
+
+  return menor;
+}
+
+console.log(menorPositivo([4, -2, 7, 1, 3])); // 1
+console.log(menorPositivo([-5, 0, -1]));       // null
+console.log(menorPositivo([8, 3, 5]));        // 3
+console.log(menorPositivo([0, 2, 0, 1]));     // 1
+console.log(menorPositivo([]));               // null
+console.log(menorPositivo([10, 10, 4, 4]));   // 4
