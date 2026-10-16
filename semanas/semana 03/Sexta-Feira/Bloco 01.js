@@ -90,4 +90,117 @@ console.log(contarMensagensVazias([" ", "", "  "]));
 console.log(contarMensagensVazias(["teste", "", "fim", "ok"])); 
 // Esperado: 1
 
-    
+
+/* B1 — QUESTÃO 4: Organizador de Fila
+Uma fila de atendimento precisa ser reorganizada sem perder a ordem das pessoas.
+Crie a função inverterFila(fila).
+Regras:
+- Retorne um novo array com os elementos na ordem inversa.
+- Não altere o array original.
+- Não utilize reverse().
+*/
+
+function inverterFila(fila) {
+  let resultado = [];
+
+  for (let i = fila.length -1; i >= 0; i--) {
+    resultado.push(fila[i]);
+  }
+
+  return resultado;
+}
+
+console.log(inverterFila(["Ana", "Bia", "Caio"])); 
+// Esperado: ["Caio", "Bia", "Ana"]
+
+console.log(inverterFila([1, 2, 3, 4])); 
+// Esperado: [4, 3, 2, 1]
+
+console.log(inverterFila(["A"])); 
+// Esperado: ["A"]
+
+console.log(inverterFila([])); 
+// Esperado: []
+
+console.log(inverterFila([10, 20])); 
+// Esperado: [20, 10]
+
+console.log(inverterFila(["x", "y", "z", "w"])); 
+// Esperado: ["w", "z", "y", "x"]
+
+
+/* B1 — QUESTÃO 5: Validação de Código
+Um sistema recebe códigos numéricos e precisa validar seu tamanho.
+Crie a função validarTamanhoCodigo(codigo, tamanho).
+Regras:
+- Retorne true se o comprimento da string for igual a tamanho.
+- Caso contrário, retorne false.
+- Considere codigo uma string.
+*/
+
+function validarTamanhoCodigo(codigo, tamanho) {
+  return codigo.length === tamanho ? true : false;
+}
+
+console.log(validarTamanhoCodigo("AB123", 5)); 
+// Esperado: true
+
+console.log(validarTamanhoCodigo("1234", 5)); 
+// Esperado: false
+
+console.log(validarTamanhoCodigo("", 0)); 
+// Esperado: true
+
+console.log(validarTamanhoCodigo("ABC", 3)); 
+// Esperado: true
+
+console.log(validarTamanhoCodigo("123456", 4)); 
+// Esperado: false
+
+console.log(validarTamanhoCodigo("A1", 2)); 
+// Esperado: true
+
+
+/* B1 — QUESTÃO 6: Separação de Valores
+Um sistema recebe uma lista de números e precisa separar os negativos dos não negativos.
+Crie a função separarNumeros(numeros).
+Regras:
+- Retorne um objeto com duas propriedades:
+  negativos: array com números menores que zero;
+  naoNegativos: array com números maiores ou iguais a zero.
+- Preserve a ordem original dos números em cada grupo.
+- Não altere o array recebido.
+*/
+
+function separarNumeros(numeros) {
+  let negativos = [];
+  let naoNegativos = [];
+
+  for (let numero of numeros) {
+    if (numero < 0) {
+      negativos.push(numero);
+    } else {
+       naoNegativos.push(numero);
+    }
+  }
+
+  return {negativos, naoNegativos};
+}
+
+console.log(separarNumeros([-3, 0, 5, -1]));
+// Esperado: { negativos: [-3, -1], naoNegativos: [0, 5] }
+
+console.log(separarNumeros([1, 2, 3]));
+// Esperado: { negativos: [], naoNegativos: [1, 2, 3] }
+
+console.log(separarNumeros([-5, -2]));
+// Esperado: { negativos: [-5, -2], naoNegativos: [] }
+
+console.log(separarNumeros([]));
+// Esperado: { negativos: [], naoNegativos: [] }
+
+console.log(separarNumeros([0, -1, 0, -2]));
+// Esperado: { negativos: [-1, -2], naoNegativos: [0, 0] }
+
+console.log(separarNumeros([8, -4, 3, -7, 0]));
+// Esperado: { negativos: [-4, -7], naoNegativos: [8, 3, 0] }
