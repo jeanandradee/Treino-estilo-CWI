@@ -98,3 +98,149 @@ console.log(longestCommonPrefix(["interview", "internet", "internal"])); // "int
 console.log(longestCommonPrefix(["casa", "casamento", "casaco"])); // "casa"
 console.log(longestCommonPrefix(["abc"])); // "abc"
 console.log(longestCommonPrefix(["", "abc"])); // ""
+
+/*🟢 Questão 4 — Remove Duplicates from Sorted Array
+Dado um array de inteiros nums em ordem crescente, remova os valores duplicados sem criar outro array para armazenar os valores únicos.
+A função deve retornar a quantidade de elementos únicos.
+Os primeiros k elementos de nums devem conter os valores únicos em ordem crescente. Os elementos que ficarem depois dessas primeiras k posições podem ser ignorados.
+Exemplos
+Entrada: nums = [1, 1, 2]
+Saída: 2
+Os dois primeiros elementos ficam [1, 2].
+Entrada: nums = [0, 0, 1, 1, 2, 2, 3]
+Saída: 4
+Os quatro primeiros elementos ficam [0, 1, 2, 3].
+Entrada: nums = [-3, -3, -1, 0, 0, 5]
+Saída: 4
+Os quatro primeiros elementos ficam [-3, -1, 0, 5].
+Restrições:
+1 <= nums.length <= 30000
+O array já está ordenado em ordem crescente.
+Faça a alteração diretamente no array recebido.*/
+function removeDuplicates(nums) {
+  let contador = 1;
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] !== nums[contador - 1]) {
+      nums[contador] = nums[i];
+      contador ++;
+    }
+  }
+
+  return contador;
+}
+
+let nums1 = [1, 1, 2];
+console.log(removeDuplicates(nums1)); // 2
+console.log(nums1.slice(0, 2));       // [1, 2]
+
+let nums2 = [0, 0, 1, 1, 2, 2, 3];
+console.log(removeDuplicates(nums2)); // 4
+console.log(nums2.slice(0, 4));       // [0, 1, 2, 3]
+
+let nums3 = [-3, -3, -1, 0, 0, 5];
+console.log(removeDuplicates(nums3)); // 4
+console.log(nums3.slice(0, 4));       // [-3, -1, 0, 5]
+
+let nums4 = [1];
+console.log(removeDuplicates(nums4)); // 1
+console.log(nums4.slice(0, 1));       // [1]
+
+let nums5 = [1, 2, 3, 4];
+console.log(removeDuplicates(nums5)); // 4
+console.log(nums5.slice(0, 4));       // [1, 2, 3, 4]
+
+let nums6 = [5, 5, 5, 5];
+console.log(removeDuplicates(nums6)); // 1
+console.log(nums6.slice(0, 1));       // [5]
+
+/*🟢 Questão 5 — Valid Parentheses
+Dada uma string s contendo apenas os caracteres (, ), {, }, [ e ], determine se os parênteses estão válidos.
+Uma string é válida quando:
+Cada abertura é fechada pelo tipo correto.
+Os fechamentos ocorrem na ordem correta.
+Todo fechamento possui uma abertura correspondente.
+Exemplos
+Entrada: s = "()"
+Saída: true
+Entrada: s = "()[]{}"
+Saída: true
+Entrada: s = "(]"
+Saída: false
+Entrada: s = "([])"
+Saída: true
+Entrada: s = "([)]"
+Saída: false
+Restrições:
+1 <= s.length <= 10000
+A string contém somente os seis caracteres especificados.*/
+function isValid(s) {
+  let pilha = [];
+
+  for (let i = 0; i < s.length; i++) {
+    let caractere = s[i];
+
+    if (
+      caractere === "(" ||
+      caractere === "[" ||
+      caractere === "{"
+    ) {
+      pilha.push(caractere);
+    } else {
+      if (pilha.length === 0) {
+        return false;
+      }
+
+      let ultimo = pilha.pop();
+
+      if (
+        (caractere === ")" && ultimo !== "(") ||
+        (caractere === "]" && ultimo !== "[") ||
+        (caractere === "}" && ultimo !== "{")
+      ) {
+        return false;
+      }
+    }
+  }
+
+  return pilha.length === 0;
+}
+
+console.log(isValid("()"));       // true
+console.log(isValid("()[]{}"));   // true
+console.log(isValid("(]"));       // false
+console.log(isValid("([])"));     // true
+console.log(isValid("([)]"));     // false
+console.log(isValid("{[]}"));     // true
+
+/*🟢 Questão 6 — Length of Last Word
+Dada uma string s composta por palavras e espaços, retorne o comprimento da última palavra.
+Uma palavra é uma sequência máxima de caracteres que não são espaços.
+Exemplos
+Entrada: s = "Hello World"
+Saída: 5
+Entrada: s = "   fly me   to   the moon  "
+Saída: 4
+Entrada: s = "luffy is still joyboy"
+Saída: 6
+Restrições:
+1 <= s.length <= 10000
+A string contém letras inglesas e espaços.
+Existe pelo menos uma palavra.*/
+function lengthOfLastWord(s) {
+  s = s.split(" ");
+  let palavras = [];
+  for (let i = 0; i < s.length; i++) {
+    if (s[i].length > 0) {
+      palavras.push(s[i]);
+    }
+  }
+
+  return palavras[palavras.length -1].length;
+}
+
+console.log(lengthOfLastWord("Hello World")); // 5
+console.log(lengthOfLastWord("   fly me   to   the moon  ")); // 4
+console.log(lengthOfLastWord("luffy is still joyboy")); // 6
+console.log(lengthOfLastWord("JavaScript")); // 10
+console.log(lengthOfLastWord("programar   ")); // 9
+console.log(lengthOfLastWord("um teste final")); // 5
