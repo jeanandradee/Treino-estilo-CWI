@@ -118,7 +118,7 @@ Regras:
 
 function processarTransacoes(transacoes) {
   if (transacoes.length === 0) {
-    return { totaEntradas: 0, totalSaidas:0, saldoFinal:0, quantidade:0 };
+    return { totalEntradas: 0, totalSaidas:0, saldoFinal:0, quantidade:0 };
   }
 
   let totaEntradas = 0;
