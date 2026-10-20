@@ -70,3 +70,83 @@ function aplicarDesconto(precos, desconto) {
 }
 console.log(aplicarDesconto([100, 50, 20], 10)) // [90, 40, 10]
 console.log(aplicarDesconto([15, 5], 10)) // [5, 0]
+
+/* QUESTÃO 4 — Identificação de Usuários
+Um sistema recebe uma lista de usuários e precisa identificar
+quais estão ativos.
+Cada objeto possui:
+- nome
+- ativo (boolean)
+Crie a função listarUsuariosAtivos(usuarios), que retorna
+um array contendo apenas os nomes dos usuários ativos,
+mantendo a ordem original.
+*/
+
+function listarUsuariosAtivos(usuarios) {
+  let ativos = [];
+
+  for (let { nome, ativo } of usuarios) {
+    if (ativo === true) {
+      ativos.push(nome);
+    }
+  }
+
+  return ativos;
+}
+console.log(listarUsuariosAtivos([ { nome: "Ana", ativo: true },
+ { nome: "Bruno", ativo: false }, { nome: "Caio", ativo: true } ])) // ["Ana", "Caio"]
+
+/* QUESTÃO 5 — Soma dos Dígitos
+Um sistema recebe um número inteiro positivo e precisa
+somar todos os seus dígitos.
+Crie a função somarDigitos(numero).
+Não transforme o número em string.
+*/
+
+function somarDigitos(numero) {
+  let soma = 0;
+
+  while (numero > 0) {
+    let divisao = Math.floor(numero / 10);
+    let digito = numero - divisao * 10;
+
+    soma += digito;
+    numero = divisao;
+  }
+
+  return soma;
+}
+
+console.log(somarDigitos(1234)) // 10
+console.log(somarDigitos(508)) // 13
+console.log(somarDigitos(7)) // 7
+
+
+/* QUESTÃO 6 — Resumo de Pontuações
+Um jogo precisa analisar as pontuações obtidas por um jogador.
+Crie a função resumirPontuacoes(pontuacoes), que retorna
+um objeto com:
+- total: soma das pontuações.
+- quantidade: número de pontuações.
+- aprovadas: quantidade de pontuações maiores ou iguais a 60.
+Se o array estiver vazio, retorne os três valores como zero.
+*/
+
+function resumirPontuacoes(pontuacoes) {
+  let total = 0
+  let quantidade = 0;
+  let aprovadas = 0;
+
+  for (let pontuacao of pontuacoes) {
+    total += pontuacao;
+    quantidade ++;
+
+    if (pontuacao >= 60) {
+      aprovadas ++;
+    }
+  }
+
+  return { total, quantidade, aprovadas };
+}
+
+console.log(resumirPontuacoes([50, 60, 90, 40])) // { total: 240, quantidade: 4, aprovadas: 2 }
