@@ -144,3 +144,178 @@ console.log(investigarLeitura([60, 50, -1, 0, -2]));
 
 console.log(investigarLeitura([10, -1, 0, -3, 20]));
 // Esperado: { somaPositivos: 30, negativosConsecutivos: false, suspeita: false }
+
+/* 🧩 Desafio 4 — O detector de mensagens suspeitas
+Um sistema de segurança analisa mensagens recebidas e precisa identificar possíveis tentativas de invasão.
+Crie a função analisarMensagem(mensagem).
+A mensagem é considerada suspeita quando:
+contém a palavra "senha" em qualquer combinação de maiúsculas e minúsculas; ou
+contém pelo menos três caracteres !.
+O resultado deve conter:
+quantidadeCaracteres: quantidade de caracteres da mensagem.
+quantidadeExclamacoes: quantidade de caracteres !.
+contemSenha: true se a palavra "senha" aparecer, ignorando maiúsculas e minúsculas.
+suspeita: true se pelo menos uma das condições de suspeita for satisfeita.
+Atenção: a palavra "senha" pode estar dentro de uma frase maior. Não é necessário que seja uma palavra isolada.*/
+function analisarMensagem(mensagem) {
+  mensagem = mensagem.toUpperCase();
+  let quantidadeCaracteres = 0;
+  let quantidadeExclamacoes = 0;
+  let contemSenha = mensagem.includes("SENHA") ? true : false;
+  let suspeita = false;
+
+  for (let i = 0; i < mensagem.length; i++) {
+    quantidadeCaracteres ++ ;
+    if (mensagem[i] === "!") {
+      quantidadeExclamacoes ++ ;
+    }
+  }
+  
+  if (contemSenha || quantidadeExclamacoes >= 3) {
+    suspeita = true;
+  }
+
+  return { quantidadeCaracteres, quantidadeExclamacoes, contemSenha, suspeita };
+
+}
+
+console.log(analisarMensagem("A SENHA foi alterada!"));
+// Esperado: { quantidadeCaracteres: 21, quantidadeExclamacoes: 1, contemSenha: true, suspeita: true }
+
+console.log(analisarMensagem("Tudo certo!!!"));
+// Esperado: { quantidadeCaracteres: 13, quantidadeExclamacoes: 3, contemSenha: false, suspeita: true }
+
+console.log(analisarMensagem("Sistema iniciado"));
+// Esperado: { quantidadeCaracteres: 16, quantidadeExclamacoes: 0, contemSenha: false, suspeita: false }
+
+/* 🧩 Desafio 5 — O robô explorador
+Um robô começa na posição (0, 0) de um mapa. Ele recebe comandos para se movimentar:
+"N": aumenta y em 1.
+"S": diminui y em 1.
+"L": aumenta x em 1.
+"O": diminui x em 1.
+Comandos desconhecidos são ignorados.
+Crie a função explorarMapa(comandos).
+O resultado deve conter:
+x: posição horizontal final.
+y: posição vertical final.
+distanciaManhattan: soma dos valores absolutos de x e y finais.
+comandosIgnorados: quantidade de comandos desconhecidos.
+Não é necessário calcular a distância percorrida pelo robô, mas sim sua distância em relação ao ponto inicial.*/
+function explorarMapa(comandos) {
+  let x = 0;
+  let y = 0;
+  let distanciaManhattan = 0;
+  let comandosIgnorados = 0;
+
+  for (let comando of comandos) {
+    if (comando === "N") {
+      y++;
+    } else if (comando === "S") {
+      y--;
+    } else if (comando === "L") {
+      x++;
+    } else if (comando === "O") {
+      x--;
+    } else {
+      comandosIgnorados++;
+    }
+  }
+
+  distanciaManhattan = Math.abs(x) + Math.abs(y);
+
+  return { x, y, distanciaManhattan, comandosIgnorados };
+}
+
+console.log(explorarMapa(["N", "N", "L", "S", "?", "O", "L"]));
+// Esperado: { x: 1, y: 1, distanciaManhattan: 2, comandosIgnorados: 1 }
+
+console.log(explorarMapa(["S", "S", "O", "O", "N"]));
+// Esperado: { x: -2, y: -1, distanciaManhattan: 3, comandosIgnorados: 0 }
+
+console.log(explorarMapa([]));
+// Esperado: { x: 0, y: 0, distanciaManhattan: 0, comandosIgnorados: 0 }
+
+/* 🧩 Desafio 6 — A sequência interrompida
+Um equipamento deveria produzir uma sequência de números inteiros crescentes, começando em 1, sem saltos.
+Por exemplo, [1, 2, 3, 4] está correta, mas [1, 2, 4] apresenta uma interrupção.
+Crie a função verificarSequencia(valores).
+A função deve retornar:
+valida: true se a sequência começar em 1 e cada número seguinte for exatamente uma unidade maior que o anterior.
+primeiraInterrupcao: índice do primeiro elemento que não segue a regra; se não houver interrupção, retorne null.
+esperado: valor que deveria estar nessa posição.
+Regras adicionais:
+Uma sequência vazia é inválida; nesse caso, primeiraInterrupcao deve ser 0 e esperado deve ser 1.
+Se o primeiro elemento não for 1, a interrupção está no índice 0.
+Não ordene a sequência antes de verificá-la: a ordem recebida importa.*/
+function verificarSequencia(valores) {
+  let valida = true;
+  let primeiraInterrupcao = null;
+  let esperado = 1;
+
+  if (valores.length === 0) {
+    return {
+      valida: false,
+      primeiraInterrupcao: 0,
+      esperado: 1
+    };
+  }
+
+  for (let i = 0; i < valores.length; i++) {
+    esperado = i + 1;
+
+    if (valores[i] !== esperado) {
+      valida = false;
+      primeiraInterrupcao = i;
+      break;
+    }
+  }
+
+  if (!valida) {
+    esperado = primeiraInterrupcao + 1;
+  } else {
+    esperado = null;
+  }
+
+  return { valida, primeiraInterrupcao, esperado };
+}
+
+console.log(verificarSequencia([1, 2, 3, 4]));
+// Esperado:
+// {
+//   valida: true,
+//   primeiraInterrupcao: null,
+//   esperado: null
+// }
+
+console.log(verificarSequencia([1, 2, 4, 5]));
+// Esperado:
+// {
+//   valida: false,
+//   primeiraInterrupcao: 2,
+//   esperado: 3
+// }
+
+console.log(verificarSequencia([2, 3, 4]));
+// Esperado:
+// {
+//   valida: false,
+//   primeiraInterrupcao: 0,
+//   esperado: 1
+// }
+
+console.log(verificarSequencia([]));
+// Esperado:
+// {
+//   valida: false,
+//   primeiraInterrupcao: 0,
+//   esperado: 1
+// }
+
+console.log(verificarSequencia([1, 2, 2, 3]));
+// Esperado:
+// {
+//   valida: false,
+//   primeiraInterrupcao: 2,
+//   esperado: 3
+// }
