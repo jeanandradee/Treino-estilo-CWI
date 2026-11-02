@@ -59,7 +59,7 @@ Ignore diferenças entre maiúsculas e minúsculas.
 Não conte espaços ou números.*/
 function contarVogais(texto) {
   let contador = 0;
-  for (let letra of texto) {
+  for (let letra of texto.toLowerCase()) {
     if (
     letra === "a" ||
     letra === "e" ||
@@ -76,3 +76,67 @@ function contarVogais(texto) {
 
 
 console.log(contarVogais("JavaScript")) // Resultado: 3
+
+/* Questão 4 — Tabuada
+Retorne um array com os resultados da multiplicação do número recebido por todos os números de 1 até 10.*/
+
+function gerarTabuada(numero) {
+  let resultado = [];
+
+  for (let i = 1; i <= 10; i++) {
+    resultado.push(numero * i);
+  }
+
+  return resultado;
+}
+console.log(gerarTabuada(5)) // Resultado: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+
+/* Questão 5 — Números positivos, negativos e zeros
+Retorne um objeto contendo:
+positivos: quantidade de números maiores que zero;
+negativos: quantidade de números menores que zero;
+zeros: quantidade de números iguais a zero;
+soma: soma de todos os números.*/
+
+function classificarNumeros(numeros) {
+  let positivos = 0;
+  let negativos = 0;
+  let zeros = 0; 
+  let soma = 0;
+
+  for (let num of numeros) {
+    if (num > 0) {
+      positivos ++;
+    } else if (num < 0) {
+      negativos ++ ;
+    } else {
+      zeros ++;
+    }
+
+    soma += num;
+  }
+
+  return {
+    positivos,
+    negativos,
+    zeros,
+    soma
+  }
+}
+
+
+console.log(classificarNumeros([5, -2, 0, 8, -4, 0, 3])) // Resultado: { positivos: 3, negativos: 2, zeros: 2, soma: 10 }
+
+/* Questão 6 — Inverter texto
+Retorne o texto com seus caracteres na ordem inversa. */
+function inverterTexto(texto) {
+  let invertido = "";
+
+  for (let i = texto.length -1; i >=0; i --) {
+    invertido += texto[i];
+  }
+
+  return invertido;
+}
+
+console.log(inverterTexto("javascript")); // Resultado "tpircsavaj"
