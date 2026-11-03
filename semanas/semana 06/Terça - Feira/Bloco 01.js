@@ -94,17 +94,17 @@ function avaliarRobos(robos) {
   let pontuacaoVencedor = 0;
   let mediaPontuacao = 0;
   let somaPontuacao = 0;
-  let quantidadePontuacoes = 0;
+  let quantidadeRobos = 0;
 
   for (let { nome, pontuacoes } of robos) {
     let total = 0;
-    quantidadePontuacoes ++;
+    quantidadeRobos ++;
 
     for (let pontuacao of pontuacoes) {
       total += pontuacao;
-      somaPontuacao += pontuacao;
       
     }
+      somaPontuacao += total;
 
     if (vencedor === null || total > pontuacaoVencedor) {
       vencedor = nome;
@@ -113,7 +113,7 @@ function avaliarRobos(robos) {
 
     resultados.push({ nome, total });
   }
-  mediaPontuacao = somaPontuacao / quantidadePontuacoes;
+  mediaPontuacao = somaPontuacao / quantidadeRobos;
 
   return {
     resultados,
@@ -206,5 +206,214 @@ Resultado esperado:
     regioesAltas: 4,
     maiorAltitude: 1800,
     posicaoMaior: { linha: 2, coluna: 1 }
+}
+*/
+
+/* ========================================
+   QUESTÃO 4 — DECODIFICADOR DE MENSAGENS
+   ========================================
+Uma equipe de comunicação utiliza um sistema simples
+para identificar mensagens recebidas.
+Cada mensagem começa com uma identificação:
+- [URGENTE]
+- [NORMAL]
+- [INFORMATIVO]
+Crie a função classificarMensagens(mensagens).
+A função deve retornar um objeto contendo:
+- urgentes: quantidade de mensagens urgentes;
+- normais: quantidade de mensagens normais;
+- informativas: quantidade de mensagens informativas;
+- desconhecidas: array com mensagens que não começam
+  com nenhuma das três identificações.
+A identificação deve ser reconhecida mesmo quando
+estiver escrita em letras minúsculas.
+Preserve o conteúdo original das mensagens
+no array desconhecidas.
+*/
+
+function classificarMensagens(mensagens) {
+  let urgentes = 0;
+  let normais = 0;
+  let informativas = 0;
+  let desconhecidas = [];
+
+  for (let mensagem of mensagens) {
+    let texto = mensagem.toUpperCase();
+
+    if (texto.startsWith("[URGENTE]")) {
+      urgentes++;
+    } else if (texto.startsWith("[NORMAL]")) {
+      normais++;
+    } else if (texto.startsWith("[INFORMATIVO]")) {
+      informativas++;
+    } else {
+      desconhecidas.push(mensagem);
+    }
+  }
+
+  return {
+    urgentes,
+    normais,
+    informativas,
+    desconhecidas
+  };
+}
+
+console.log(classificarMensagens([
+    "[URGENTE] Servidor fora do ar",
+    "[normal] Atualização concluída",
+    "[INFORMATIVO] Reunião às 15h",
+    "[urgente] Falha no sistema",
+    "Mensagem sem identificação"
+]));
+/* Resultado esperado:
+{
+    urgentes: 2,
+    normais: 1,
+    informativas: 1,
+    desconhecidas: ["Mensagem sem identificação"]
+}
+*/
+
+/* ========================================
+   QUESTÃO 5 — BILHETERIA DO PARQUE
+   ========================================
+Um parque de diversões possui três tipos de ingresso:
+- Infantil: R$ 15
+- Adulto: R$ 30
+- Idoso: R$ 20
+Crie a função fecharCaixa(ingressos).
+Cada ingresso possui:
+- visitante;
+- tipo;
+- quantidade.
+A função deve retornar:
+- visitantes: quantidade total de visitantes;
+- faturamento: valor total arrecadado;
+- porTipo: objeto contendo a quantidade de ingressos
+  vendidos de cada tipo.
+Regras:
+- Cada ingresso representa a quantidade informada.
+- O faturamento deve considerar o preço de cada tipo.
+- Não modifique o array original.
+- Se não houver vendas, todos os valores devem ser 0.
+*/
+
+function fecharCaixa(ingressos) {
+  let visitantes = 0;
+  let faturamento = 0;
+  let porTipo = {};
+  
+  for (let { visitante, tipo, quantidade } of ingressos) {
+    visitantes += quantidade;
+
+    if (tipo === "infantil") {
+      faturamento += quantidade * 15;
+    } else if (tipo === "adulto") {
+      faturamento += quantidade * 30;
+    } else if (tipo === "idoso") {
+      faturamento += quantidade * 20;
+    }
+
+    if (porTipo[tipo] === undefined) {
+      porTipo[tipo] = 0;
+    }
+
+    porTipo[tipo] += quantidade;
+  }
+
+  return {
+    visitantes,
+    faturamento,
+    porTipo
+  }
+}
+
+console.log(fecharCaixa([ { visitante: "Ana", tipo: "infantil", quantidade: 2 }, { visitante: "Carlos", tipo: "adulto", quantidade: 1 },
+ { visitante: "Maria", tipo: "idoso", quantidade: 3 }, { visitante: "João", tipo: "adulto", quantidade: 2 } ]));
+/* Resultado esperado:
+{
+    visitantes: 8,
+    faturamento: 180,
+    porTipo: {
+        infantil: 2,
+        adulto: 3,
+        idoso: 3
+    }
+}
+*/
+
+/* ========================================
+   QUESTÃO 6 — SISTEMA DE SENHAS
+   ========================================
+Uma clínica utiliza senhas para organizar o atendimento.
+As senhas são recebidas em uma lista na ordem
+em que os pacientes chegaram.
+Cada senha possui:
+- numero;
+- prioridade.
+As prioridades possíveis são:
+- "normal";
+- "preferencial".
+Crie a função organizarAtendimento(senhas).
+A função deve retornar um objeto contendo:
+- preferenciais: array com os números das senhas
+  preferenciais;
+- normais: array com os números das senhas normais;
+- proximaSenha: número da primeira senha preferencial,
+  caso exista. Caso contrário, será o número da primeira
+  senha normal.
+- total: quantidade total de senhas recebidas.
+Regras:
+- Preserve a ordem original dentro de cada categoria.
+- Não altere o array original.
+- Se não houver senhas, proximaSenha será null.
+*/
+
+function organizarAtendimento(senhas) {
+  let preferenciais = [];
+  let normais = [];
+  let proximaSenha = null;
+  let total = 0;
+
+
+  for (let { numero, prioridade } of senhas) {
+    total++;
+
+    if (prioridade === "preferencial") {
+      preferenciais.push(numero);
+    } else if (prioridade === "normal") {
+      normais.push(numero);
+    }
+  }
+
+  if (preferenciais.length > 0) {
+    proximaSenha = preferenciais[0];
+  } else if (normais.length > 0) {
+    proximaSenha = normais[0];
+  }
+
+  return {
+    preferenciais,
+    normais,
+    proximaSenha,
+    total
+  };
+}
+
+console.log(organizarAtendimento([
+    { numero: 101, prioridade: "normal" },
+    { numero: 102, prioridade: "preferencial" },
+    { numero: 103, prioridade: "normal" },
+    { numero: 104, prioridade: "preferencial" },
+    { numero: 105, prioridade: "normal" }
+]));
+
+/* Resultado esperado:
+{
+    preferenciais: [102, 104],
+    normais: [101, 103, 105],
+    proximaSenha: 102,
+    total: 5
 }
 */
