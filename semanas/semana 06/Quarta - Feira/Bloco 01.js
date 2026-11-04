@@ -87,3 +87,92 @@ function maiorSequencia(dias) {
 }
 
 console.log(maiorSequencia([2, 3, 1, 0, 4, 2, 5, 3, 0])); // Resultado esperado: 4
+
+/* QUESTÃO 4 — Limpeza de Código
+Um sistema recebe códigos de identificação que podem
+conter letras, números, espaços e símbolos.
+Ele precisa gerar uma nova string contendo somente
+os números encontrados no código original.
+Não utilize expressões regulares.
+Não modifique o texto original.
+*/
+
+function extrairNumeros(codigo) {
+  let nums = "";
+
+  for (let caracter of codigo) {
+    if (caracter >= "0" && caracter <= "9") {
+      nums += caracter;
+    }
+  }
+
+  return nums;
+}
+
+console.log(extrairNumeros("AB-23/CD 45#X9")); // Resultado esperado: "23459"
+
+
+/* QUESTÃO 5 — Robô de Navegação
+Um robô começa na posição (0, 0) de um plano.
+Ele recebe uma sequência de comandos:
+- D: direita (aumenta X em 1).
+- E: esquerda (diminui X em 1).
+- C: cima (aumenta Y em 1).
+- B: baixo (diminui Y em 1).
+O sistema precisa executar todos os comandos
+e retornar a posição final do robô.
+Comandos desconhecidos devem ser ignorados.
+*/
+
+function movimentarRobo(comandos) {
+  let x = 0;
+  let y = 0;
+
+  for (let comando of comandos) {
+    if (comando === "D") {
+      x ++ ;
+    } else if (comando === "E") {
+      x -- ;
+    } else if (comando === "C") {
+      y ++ ;
+    } else if (comando === "B") {
+      y -- ;
+    }
+  }
+
+  return { x , y };
+}
+
+console.log(movimentarRobo(["D", "D", "C", "E", "B", "C", "X"])); // Resultado esperado: { x: 1, y: 1 }
+
+/* QUESTÃO 6 — Analisador de Texto
+Um editor de texto precisa identificar a palavra
+mais longa de uma frase.
+Regras:
+1. As palavras são separadas por espaços.
+2. Espaços extras no início e no final devem ser ignorados.
+3. Em caso de empate, considere a primeira palavra encontrada.
+4. Retorne a palavra e seu tamanho.
+Considere que a frase possui pelo menos uma palavra.
+*/
+
+function encontrarMaiorPalavra(frase) {
+  let palavras  = frase.split(/\s+/);
+  let palavra = "";
+  let tamanho = 0;
+
+  for (let p of palavras) {
+    if (p.length > palavra.length) {
+      palavra = p;
+      tamanho = p.length;
+    }
+  }
+
+  return { 
+    palavra,
+    tamanho
+  }
+}
+
+console.log(encontrarMaiorPalavra("  Hoje estou estudando JavaScript  ")); 
+// Resultado esperado: { palavra: "JavaScript", tamanho: 10 }
