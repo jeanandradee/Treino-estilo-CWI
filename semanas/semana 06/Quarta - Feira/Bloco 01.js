@@ -157,7 +157,7 @@ Considere que a frase possui pelo menos uma palavra.
 */
 
 function encontrarMaiorPalavra(frase) {
-  let palavras  = frase.split(/\s+/);
+  let palavras  = frase.trim().split(/\s+/);
   let palavra = "";
   let tamanho = 0;
 
