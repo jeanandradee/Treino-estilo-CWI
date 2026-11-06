@@ -97,3 +97,135 @@ function analisarFrase(frase) {
 
 console.log(analisarFrase("  JavaScript   exige bastante prática diária  "));
 // Esperado: { quantidade: 5, longas: 3, primeira: "JavaScript", ultima: "diária" }
+
+/* Q4 — Mapa de Pontuação
+Um jogo registra a pontuação de cada jogador
+em uma matriz. Cada linha representa um jogador.
+Retorne:
+1. A pontuação total de cada jogador.
+2. O índice do jogador com maior pontuação.
+3. Quantos jogadores fizeram pelo menos 20 pontos.
+4. A soma de todas as pontuações.
+Em caso de empate, manter o primeiro jogador.
+*/
+
+function analisarPontuacoes(matriz) {
+  const totais = matriz.map(jogador => jogador.reduce((acc , p) => acc + p ,0));
+
+  let melhorJogador = 0;
+
+  for (let i = 1; i < totais.length; i++) {
+    if (totais[i] > totais[melhorJogador]) {
+      melhorJogador = i;
+    }
+  }
+  
+  const acimaDe20 = totais.filter(jogador => jogador >= 20).length;
+
+  const totalGeral = matriz.flat().reduce((acc, p) => acc + p ,0);
+
+  return {
+    totais,
+    melhorJogador,
+    acimaDe20,
+    totalGeral
+  }
+}
+
+console.log(analisarPontuacoes([ [5, 8, 7], [10, 10, 5], [3, 4, 6],  [8, 8, 8] ]));
+// Esperado: { totais: [20, 25, 13, 24], melhorJogador: 1, acimaDe20: 3, totalGeral: 82 }
+
+/* Q5 — Histórico de Movimentação
+Um robô recebe comandos:
+D = direita
+E = esquerda
+C = cima
+B = baixo
+Começa na posição x = 0 e y = 0.
+Retorne:
+1. Posição final x.
+2. Posição final y.
+3. Quantidade de comandos inválidos.
+4. Distância total percorrida.
+Cada comando válido movimenta uma unidade.
+A distância é a quantidade de movimentos realizados.
+A busca pelos comandos deve ignorar maiúsculas
+e minúsculas.
+*/
+
+function movimentarRobo(comandos) {
+  let x = 0; 
+  let y = 0;
+  let invalidos = 0;
+  let distancia = 0;
+
+  for (let comando of comandos) {
+    comando = comando.toUpperCase();
+    if (comando === "D") {
+      x ++ ;
+      distancia ++ ;
+    } else if (comando === "E") {
+      x -- ;
+      distancia ++ ;
+    } else if (comando === "C") {
+      y ++ ;
+      distancia ++ ;
+    } else if (comando === "B") {
+      y -- ;
+      distancia ++ ;
+    } else {
+      invalidos ++;
+    }
+  }
+  return {
+    x,
+    y,
+    invalidos,
+    distancia
+  }
+}
+
+console.log(movimentarRobo(["D", "D", "C", "E", "X", "b", "C"]));
+// Esperado: { x: 1, y: 1, invalidos: 1, distancia: 6 }
+
+/* Q6 — Análise de Produtos
+Uma loja recebe produtos com nome, preço e quantidade.
+Retorne:
+1. Valor total de cada produto (preço * quantidade).
+2. Valor total de todo o estoque.
+3. Nome do produto com maior valor total.
+4. Quantos produtos possuem quantidade igual a zero.
+Em caso de empate no maior valor, manter o primeiro.
+Se não houver produtos, o nome será null.
+*/
+
+function analisarProdutos(produtos) {
+  const valores = produtos.map(produto => produto.preco * produto.quantidade );
+  
+  const totalEstoque = valores.reduce((acc, p) => acc + p ,0);
+  
+  let maiorProduto = null;
+  let maiorValor = -1;
+
+  for (let i = 0; i < valores.length; i++) {
+    if (valores[i] > maiorValor) {
+      maiorValor = valores[i];
+      maiorProduto = produtos[i].nome;
+    }
+  }
+  
+  const semEstoque = produtos.filter(produto => produto.quantidade === 0).length;
+  
+  
+  return {
+    valores,
+    totalEstoque,
+    maiorProduto,
+    semEstoque
+  }
+}
+
+console.log(analisarProdutos([ { nome: "Mouse", preco: 80, quantidade: 3 }, { nome: "Teclado", preco: 150, quantidade: 2 },
+ { nome: "Monitor", preco: 900, quantidade: 0 }, { nome: "Headset", preco: 100, quantidade: 4 } ]));
+
+// Esperado: { valores: [240, 300, 0, 400], totalEstoque: 940, maiorProduto: "Headset", semEstoque: 1 }
