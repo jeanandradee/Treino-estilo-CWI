@@ -98,3 +98,146 @@ console.log(analisarParticipantes([
   { nome: "Pedro", idade: 17, categoria: "Comum" }
 ]));
 // Esperado: { total: 4, maioresDeIdade: 2, participantesVIP: ["Ana", "Julia"] }
+
+/* Q4 — Histórico de Consumo
+Uma empresa registra o consumo mensal de energia
+de seus clientes.
+Cada registro possui:
+- cliente
+- consumo
+Retorne:
+1. Consumo total.
+2. Quantidade de clientes com consumo >= 200.
+3. Média de consumo.
+*/
+
+function analisarConsumo(registros) {
+  const consumoTotal = registros.reduce((acc, c) => acc + c.consumo ,0);
+
+  const clientesAcimaLimite = registros.filter(c => c.consumo >= 200).length;
+
+  const media = registros.length > 0
+    ? consumoTotal / registros.length
+    : 0;
+
+
+  return {
+    consumoTotal,
+    clientesAcimaLimite,
+    media
+  }
+}
+
+console.log(analisarConsumo([
+  { cliente: "Ana", consumo: 150 },
+  { cliente: "Carlos", consumo: 250 },
+  { cliente: "Julia", consumo: 300 },
+  { cliente: "Pedro", consumo: 100 }
+]));
+
+// Esperado: { consumoTotal: 800, clientesAcimaLimite: 2, media: 200 }
+
+/* Q5 — Validação de Códigos
+Um sistema recebe códigos de identificação.
+Um código é válido quando:
+- possui pelo menos 6 caracteres;
+- não contém espaços;
+- começa com uma letra maiúscula.
+Retorne:
+1. Quantidade de códigos válidos.
+2. Lista dos códigos inválidos.
+*/
+
+function validarCodigos(codigos) {
+  const validos = codigos.filter(codigo =>
+    codigo.length >= 6 &&
+    !codigo.includes(" ") &&
+    /^[A-Z]/.test(codigo)
+  );
+
+  const invalidos = codigos.filter(codigo =>
+    codigo.length < 6 ||
+    codigo.includes(" ") ||
+    !/^[A-Z]/.test(codigo)
+  );
+
+  return {
+    validos: validos.length,
+    invalidos
+  };
+}
+
+console.log(validarCodigos([ "ABC123", "abc456", "AB 123", "XYZ7890", "CD12" ]));
+// Esperado: { validos: 2, invalidos: ["abc456", "AB 123", "CD12"] }
+
+/* Q6 — Relatório de Avaliações
+Uma plataforma registra as notas de seus alunos.
+Cada aluno possui:
+- nome
+- notas: array de avaliações.
+Regras:
+- Média >= 7: aprovado.
+- Média < 7: reprovado.
+Retorne:
+1. Média de cada aluno.
+2. Lista de aprovados.
+3. Lista de reprovados.
+4. Média geral da turma.
+*/
+
+function gerarRelatorio(alunos) {
+  const medias = alunos.map(aluno => {
+    const soma = aluno.notas.reduce(
+      (acc, nota) => acc + nota, 0
+    );
+
+    const media = aluno.notas.length > 0
+      ? soma / aluno.notas.length
+      : 0;
+
+    return {
+      nome: aluno.nome,
+      media: Number(media.toFixed(2))
+    };
+  });
+
+  const aprovados = medias
+    .filter(aluno => aluno.media >= 7)
+    .map(aluno => aluno.nome);
+
+  const reprovados = medias
+    .filter(aluno => aluno.media < 7)
+    .map(aluno => aluno.nome);
+
+  const somaMedias = medias.reduce(
+    (acc, aluno) => acc + aluno.media, 0
+  );
+
+  const mediaGeral = medias.length > 0
+    ? Number((somaMedias / medias.length).toFixed(2))
+    : 0;
+
+  return {
+    medias,
+    aprovados,
+    reprovados,
+    mediaGeral
+  };
+}
+
+console.log(gerarRelatorio([
+  { nome: "Lucas", notas: [8, 7, 9] },
+  { nome: "Marina", notas: [5, 6, 7] },
+  { nome: "Rafael", notas: [9, 10, 8] }
+]));
+
+// Esperado: {
+//  medias: [
+//     { nome: "Lucas", media: 8 },
+//     { nome: "Marina", media: 6 },
+//     { nome: "Rafael", media: 9 }
+//   ],
+//   aprovados: ["Lucas", "Rafael"],
+//   reprovados: ["Marina"],
+//   mediaGeral: 7.67
+// }
