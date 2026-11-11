@@ -125,3 +125,121 @@ console.log(verificarEstoque([
 //   totalUnidades: 31,
 //   maiorEstoque: "Teclado"
 // }
+
+/* Q4 — Relatório de Consumo
+Uma empresa registra o consumo de energia de seus setores.
+Retorne:
+1. Consumo total de cada setor.
+2. Consumo geral da empresa.
+3. Nome do setor com maior consumo total.
+4. Quantidade de setores cujo consumo ultrapassa 500.
+*/
+
+function analisarConsumo(lista) {
+  const setores = lista.map(consumo => {
+    const total = consumo.consumos.reduce(
+      (acc, n) => acc + n, 0
+    );
+
+    return {
+      nome: consumo.nome,
+      total
+    };
+  });
+
+  const consumoGeral = setores.reduce( (acc, s) => acc + s.total, 0 );
+
+  const maiorConsumo = setores.reduce((maior, atual) =>
+    atual.total > maior.total ? atual : maior
+  ).nome;
+
+  const acima500 = setores.filter( setor => setor.total > 500 ).length;
+
+  return {
+    setores,
+    consumoGeral,
+    maiorConsumo,
+    acima500
+  };
+}
+
+console.log(analisarConsumo([
+    { nome: "Administrativo", consumos: [120, 135, 110] },
+    { nome: "Produção", consumos: [300, 280, 320] },
+    { nome: "Tecnologia", consumos: [180, 190, 170] },
+    { nome: "Logística", consumos: [150, 160, 140] }
+]));
+// Resultado esperado:
+// {
+//   setores: [
+//     { nome: "Administrativo", total: 365 },
+//     { nome: "Produção", total: 900 },
+//     { nome: "Tecnologia", total: 540 },
+//     { nome: "Logística", total: 450 }
+//   ],
+//   consumoGeral: 2255,
+//   maiorConsumo: "Produção",
+//   acima500: 2
+// }
+
+/* Q5 — Controle de Reservas
+Um hotel registra suas reservas.
+Retorne:
+1. Quantidade de reservas confirmadas.
+2. Faturamento previsto somente das reservas confirmadas.
+3. Nome do hóspede da reserva confirmada de maior valor.
+4. Quantidade de reservas não confirmadas.
+5. Média de noites das reservas confirmadas.
+*/
+
+function gerarRelatorio(ficha) {
+  const confirmadas = ficha.filter(f => f.confirmada);
+
+  const faturamento = confirmadas.reduce(
+    (acc, f) => acc + (f.valorDiaria * f.noites), 0
+  );
+
+  const maiorReserva = confirmadas.length
+    ? confirmadas.reduce((maior, atual) =>
+        atual.valorDiaria * atual.noites >
+        maior.valorDiaria * maior.noites
+          ? atual : maior
+      ).hospede
+    : null;
+
+  const naoConfirmadas = ficha.filter(
+    f => !f.confirmada
+  ).length;
+
+  const mediaNoites = confirmadas.length
+    ? Number((
+        confirmadas.reduce((acc, f) => acc + f.noites, 0) /
+        confirmadas.length
+      ).toFixed(2))
+    : 0;
+
+
+  return {
+    confirmadas: confirmadas.length,
+    faturamento,
+    maiorReserva,
+    naoConfirmadas,
+    mediaNoites
+  }
+}
+
+console.log(gerarRelatorio([
+    { hospede: "Marina", noites: 3, valorDiaria: 200, confirmada: true },
+    { hospede: "Lucas", noites: 2, valorDiaria: 150, confirmada: false },
+    { hospede: "Bianca", noites: 5, valorDiaria: 180, confirmada: true },
+    { hospede: "Rafael", noites: 4, valorDiaria: 250, confirmada: true },
+    { hospede: "Camila", noites: 1, valorDiaria: 300, confirmada: false }
+]));
+// Resultado esperado:
+// {
+//   confirmadas: 3,
+//   faturamento: 2200,
+//   maiorReserva: "Rafael",
+//   naoConfirmadas: 2,
+//   mediaNoites: 4
+// }
