@@ -61,7 +61,7 @@ Se o array estiver vazio, a média deverá ser 0.
 function analisarNotas(notas) {
   const aprovados = notas.filter(n => n >= 7).length;
 
-  const reprovados = notas.filter(n => n <= 6).length;
+  const reprovados = notas.filter(n => n < 7).length;
 
   const media = notas.length > 0 ? 
     notas.reduce((acc, n) => acc + n ,0) / notas.length 
@@ -77,3 +77,104 @@ function analisarNotas(notas) {
 console.log(analisarNotas([8, 5, 10, 6, 7])); // { aprovados: 3, reprovados: 2, media: 7.2 }
 console.log(analisarNotas([4, 6, 5]));        // { aprovados: 0, reprovados: 3, media: 5 }
 console.log(analisarNotas([]));               // { aprovados: 0, reprovados: 0, media: 0 }
+
+/* Questão 4 — Busca de Funcionários
+Uma empresa possui uma lista de funcionários.
+Cada funcionário contém:
+- nome
+- departamento
+- ativo
+Crie uma função que recebe a lista e um departamento.
+Retorne um array com os nomes dos funcionários
+que atendem às duas condições:
+1. Estão ativos.
+2. Pertencem ao departamento informado.
+A comparação do departamento deve ignorar
+diferenças entre letras maiúsculas e minúsculas.
+*/
+
+function buscarFuncionarios(funcionarios, departamento) {
+  return funcionarios.filter(f => f.departamento.toLowerCase() === departamento.toLowerCase() && f.ativo).map(f => f.nome);
+}
+
+console.log(buscarFuncionarios([
+  { nome: "Ana", departamento: "TI", ativo: true },
+  { nome: "Carlos", departamento: "RH", ativo: true },
+  { nome: "Marina", departamento: "ti", ativo: false },
+  { nome: "Pedro", departamento: "Ti", ativo: true }
+], "ti"));
+// ["Ana", "Pedro"]
+
+/* Questão 5 — Relatório de Vendas
+Uma empresa precisa analisar suas vendas.
+Cada venda possui:
+- vendedor
+- valor
+- status
+Crie uma função que recebe um array de vendas
+e retorna um objeto contendo:
+- totalAprovadas: quantidade de vendas aprovadas.
+- valorTotal: soma dos valores das vendas aprovadas.
+- maiorVenda: maior valor entre as vendas aprovadas.
+- vendedorMaiorVenda: nome do vendedor responsável
+  pela maior venda aprovada.
+REGRAS:
+1. Somente vendas com status "aprovada" entram nos cálculos.
+2. A comparação do status deve ignorar maiúsculas
+   e minúsculas.
+3. Se não existir nenhuma venda aprovada:
+   - totalAprovadas deve ser 0.
+   - valorTotal deve ser 0.
+   - maiorVenda deve ser null.
+   - vendedorMaiorVenda deve ser null.
+4. Se houver empate na maior venda, considerar
+   o primeiro vendedor encontrado.
+5. Não modificar o array original.
+*/
+
+function gerarRelatorio(vendas) {
+  const aprovadas = vendas.filter(
+    v => v.status.toLowerCase() === "aprovada"
+  );
+
+  const totalAprovadas = aprovadas.length;
+
+  const valorTotal = aprovadas.reduce(
+    (acc, v) => acc + v.valor, 0
+  );
+
+  if (aprovadas.length === 0) {
+    return {
+      totalAprovadas: 0,
+      valorTotal: 0,
+      maiorVenda: null,
+      vendedorMaiorVenda: null
+    };
+  }
+
+  const maior = aprovadas.reduce((maior, venda) =>
+    venda.valor > maior.valor ? venda : maior
+  );
+
+  return {
+    totalAprovadas,
+    valorTotal,
+    maiorVenda: maior.valor,
+    vendedorMaiorVenda: maior.vendedor
+  };
+}
+
+console.log(gerarRelatorio([
+  { vendedor: "Ana", valor: 150, status: "aprovada" },
+  { vendedor: "Carlos", valor: 200, status: "pendente" },
+  { vendedor: "Pedro", valor: 300, status: "APROVADA" },
+  { vendedor: "Marina", valor: 100, status: "aprovada" },
+  { vendedor: "João", valor: 300, status: "Aprovada" }
+]));
+
+// {
+//   totalAprovadas: 4,
+//   valorTotal: 850,
+//   maiorVenda: 300,
+//   vendedorMaiorVenda: "Pedro"
+// }
